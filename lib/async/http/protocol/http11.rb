@@ -104,7 +104,7 @@ module Async
 					
 					return Response.new(*read_response)
 				rescue EOFError
-					Async.logger.debug(self) {"Connection failed with EOFError after #{@count} requests."}
+					Async.logger.warn(self) {"Connection failed with EOFError after #{@count} requests."}
 					return nil
 				end
 				
@@ -136,6 +136,9 @@ module Async
 					body = read_body(headers)
 					
 					return headers.delete('host'), method, path, version, headers, body
+				rescue EOFError
+					$stderr.puts "EOFError in read_request"
+					raise
 				end
 				
 				def write_response(version, status, headers, body)

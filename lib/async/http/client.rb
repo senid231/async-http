@@ -83,6 +83,7 @@ module Async
 			
 			def connect(connection_limit: nil)
 				Pool.new(connection_limit) do
+					puts "Making connection to #{@endpoint.inspect}"
 					Async.logger.debug(self) {"Making connection to #{@endpoint.inspect}"}
 					
 					peer = @endpoint.connect
