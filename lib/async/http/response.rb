@@ -26,11 +26,12 @@ module Async
 		class Response
 			prepend Body::Reader
 			
-			def initialize(version = nil, status = 200, reason = nil, headers = [], body = nil)
+			def initialize(version = nil, status = 200, reason = nil, headers = [], body = nil, trailers = nil)
 				@version = version
 				@status = status
 				@reason = reason
 				@headers = headers
+				@trailers = trailers
 				@body = body
 			end
 			
@@ -39,6 +40,9 @@ module Async
 			attr_accessor :reason
 			attr_accessor :headers
 			attr_accessor :body
+			
+			# @return [#keys, #each] A list of trailing metadata.
+			attr_accessor :trailers
 			
 			def continue?
 				status == 100
